@@ -1,4 +1,6 @@
-# Binaries
+# =========================
+# Go binaries
+# =========================
 *.exe
 *.dll
 *.so
@@ -15,31 +17,50 @@ services/scheduler/scheduler
 services/shipping-service/shipping-service
 services/worker/worker
 
-# Go
-/services/*/vendor/
+# Go vendor directories
+services/*/vendor/
 
+# =========================
 # Terraform
+# =========================
 .terraform/
 *.tfstate
-*.tfstate.backup
+*.tfstate.*
 *.tfvars
-.terraform.lock.hcl
+*.auto.tfvars
+*.tfplan
+plan.out
+crash.log
 
+# =========================
 # Kubernetes
+# =========================
 kubeconfig
 *.kubeconfig
 
+# =========================
+# Environment / Secrets
+# =========================
+.env
+.env.*
+*.pem
+*.key
+
+# =========================
+# Logs
+# =========================
+*.log
+
+# =========================
 # IDE
+# =========================
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# OS
+# =========================
+# OS files
+# =========================
 .DS_Store
 Thumbs.db
-
-# Environment
-.env
-.env.*
-*.pem
