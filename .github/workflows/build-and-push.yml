@@ -1,0 +1,71 @@
+name: Build and Push Services to ECR
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "services/**"
+      - ".github/workflows/build-and-push.yml"
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: build-and-push-production
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: eu-west-2
+  IMAGE_TAG: ${{ github.sha }}-${{ github.run_id }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - api-gateway
+          - dashboard-api
+          - order-service
+          - payment-service
+          - shipping-service
+          - inventory-service
+          - notification-service
+          - analytics-service
+          - frontend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6.1.0
+        with:
+          role-to-assume: arn:aws:iam::409987738946:role/github-actions-terraform
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Install Trivy
+        uses: aquasecurity/setup-trivy@v0.2.6
+
+      - name: Build, scan and push image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          SERVICE_NAME: ${{ matrix.service }}
+        run: |
+          IMAGE_URI="$ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG"
+
+          docker build --no-cache -t "$IMAGE_URI" "./services/$SERVICE_NAME"
+
+          trivy image --severity HIGH,CRITICAL --exit-code 1 --ignorefile .trivyignore "$IMAGE_URI"
+
+          docker push "$IMAGE_URI"

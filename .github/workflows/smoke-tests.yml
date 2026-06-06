@@ -1,0 +1,41 @@
+# name: Smoke Tests
+
+# on:
+#   workflow_dispatch:
+
+# permissions:
+#   contents: read
+
+# concurrency:
+#   group: smoke-tests-production
+#   cancel-in-progress: false
+
+# env:
+#   BASE_URL: https://eksv2.ahmedo.co.uk
+
+# jobs:
+#   smoke-tests:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Check API Gateway
+#         run: curl -f -sS "$BASE_URL/health"
+
+#       - name: Check Dashboard API
+#         run: curl -f -sS "$BASE_URL/dashboard/health"
+
+#       - name: Check Orders
+#         run: curl -f -sS "$BASE_URL/orders/health"
+
+#       - name: Check Payments
+#         run: curl -f -sS "$BASE_URL/payments/health"
+
+#       - name: Check Shipping
+#         run: curl -f -sS "$BASE_URL/shipping/health"
+
+#       - name: Check Inventory
+#         run: curl -f -sS "$BASE_URL/inventory/health"
+
+#       - name: Check Notifications
+#         run: curl -f -sS "$BASE_URL/notifications/health"
+
