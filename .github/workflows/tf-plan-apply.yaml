@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - "terraform/**"
-      - ".github/workflows/terraform.yml"
+      - ".github/workflows/tf-plan-apply.yml"
 
   workflow_dispatch:
 
