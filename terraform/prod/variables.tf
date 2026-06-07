@@ -55,7 +55,7 @@ variable "ecr_repositories" {
 }
 
 variable "hosted_zone_id" {
-  type = string
+  type    = string
   default = "Z03631591EWPFVYXB2928"
 }
 
