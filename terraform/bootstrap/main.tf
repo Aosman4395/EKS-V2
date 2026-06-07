@@ -38,4 +38,16 @@ resource "aws_s3_bucket_public_access_block" "terraform_state_public_access_bloc
 
 module "ecr" {
   source = "../modules/ecr"
+
+  ecr_repositories = [
+    "api-gateway",
+    "dashboard-api",
+    "inventory-service",
+    "notification-service",
+    "order-service",
+    "payment-service",
+    "scheduler",
+    "shipping-service",
+    "worker"
+  ]
 }
