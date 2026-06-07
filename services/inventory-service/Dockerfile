@@ -1,4 +1,4 @@
-FROM golang:1.24-alpine AS builder
+FROM golang:1.26-alpine AS builder
 
 WORKDIR /app
 
@@ -7,7 +7,7 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o dashboard-api .
+RUN CGO_ENABLED=0 GOOS=linux go build -o inventory-service .
 
 FROM alpine:3.22
 
@@ -15,10 +15,10 @@ RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 WORKDIR /app
 
-COPY --from=builder /app/dashboard-api .
+COPY --from=builder /app/inventory-service .
 
 USER appuser
 
 EXPOSE 8080
 
-CMD ["./dashboard-api"]
+CMD ["./inventory-service"]
