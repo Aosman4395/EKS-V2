@@ -32,13 +32,13 @@ jobs:
         service:
           - api-gateway
           - dashboard-api
-          - order-service
-          - payment-service
-          - shipping-service
           - inventory-service
           - notification-service
-          - analytics-service
-          - frontend
+          - order-service
+          - payment-service
+          - scheduler
+          - shipping-service
+          - worker
 
     steps:
       - name: Checkout code
