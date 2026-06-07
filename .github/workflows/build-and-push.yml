@@ -64,8 +64,8 @@ jobs:
         run: |
           IMAGE_URI="$ECR_REGISTRY/$SERVICE_NAME:$IMAGE_TAG"
 
-          docker build --no-cache -t "$IMAGE_URI" "./services/$SERVICE_NAME"
+          docker build --no-cache --pull -t "$IMAGE_URI" "./services/$SERVICE_NAME"
 
-          trivy image --severity HIGH,CRITICAL --exit-code 1 --ignorefile .trivyignore "$IMAGE_URI"
+          trivy image --severity HIGH,CRITICAL --exit-code 1 "$IMAGE_URI"
 
           docker push "$IMAGE_URI"
