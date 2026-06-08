@@ -25,7 +25,13 @@ resource "aws_iam_role" "github_actions" {
         Condition = {
           StringEquals = {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
-            "token.actions.githubusercontent.com:sub" = "repo:Aosman4395/EKS-V2:ref:refs/heads/main"
+          }
+
+          StringLike = {
+            "token.actions.githubusercontent.com:sub" = [
+              "repo:Aosman4395/EKS-V2:ref:refs/heads/main",
+              "repo:Aosman4395/EKS-V2:environment:production"
+            ]
           }
         }
       }
