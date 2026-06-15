@@ -4,10 +4,10 @@ resource "aws_eks_cluster" "eks_cluster" {
   version  = var.kubernetes_version
   role_arn = aws_iam_role.eks_cluster_role.arn
 
-   access_config {
-    authentication_mode = "API_AND_CONFIG_MAP"
+  access_config {
+    authentication_mode                         = "API_AND_CONFIG_MAP"
+    bootstrap_cluster_creator_admin_permissions = true
   }
-
 
   vpc_config {
     subnet_ids              = var.private_subnet_ids
