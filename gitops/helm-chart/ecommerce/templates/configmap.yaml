@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ecommerce-config
+  namespace: {{ .Values.global.namespace }}
+  labels:
+    app.kubernetes.io/name: ecommerce-config
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+data:
+  ENVIRONMENT: {{ .Values.global.environment | quote }}
+  AWS_REGION: {{ .Values.global.awsRegion | quote }}
+  DOMAIN: {{ .Values.global.domain | quote }}
+  POSTGRES_HOST: "postgres"
+  POSTGRES_PORT: "5432"
+  POSTGRES_DB: {{ .Values.postgres.database | quote }}
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"

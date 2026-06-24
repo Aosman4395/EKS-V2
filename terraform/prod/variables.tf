@@ -56,11 +56,11 @@ variable "ecr_repositories" {
 
 variable "hosted_zone_id" {
   type    = string
-  default = "Z03631591EWPFVYXB2928"
+  default = "Z09425311W0YDP6A7N1AU"
 }
 
 variable "principal_arn" {
   description = "The ARN of the OIDC provider for IRSA"
   type        = string
-  default     = "arn:aws:iam::409987738946:root"
+  default     = "arn:aws:iam::673588459289:root"
 }

@@ -1,0 +1,839 @@
+---
+# Source: ecommerce/templates/postgres-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: postgres
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: postgres
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: 5432
+      protocol: TCP
+
+---
+# Source: ecommerce/templates/redis-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: redis
+  ports:
+    - name: redis
+      port: 6379
+      targetPort: 6379
+      protocol: TCP
+
+---
+# Source: ecommerce/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: api-gateway
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: api-gateway
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+---
+# Source: ecommerce/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: dashboard-api
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: dashboard-api
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: dashboard-api
+  ports:
+    - name: http
+      port: 8086
+      targetPort: 8086
+      protocol: TCP
+---
+# Source: ecommerce/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: inventory-service
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: inventory-service
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: inventory-service
+  ports:
+    - name: http
+      port: 8082
+      targetPort: 8082
+      protocol: TCP
+---
+# Source: ecommerce/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-service
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: notification-service
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: notification-service
+  ports:
+    - name: http
+      port: 8084
+      targetPort: 8084
+      protocol: TCP
+---
+# Source: ecommerce/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: order-service
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: order-service
+  ports:
+    - name: http
+      port: 8081
+      targetPort: 8081
+      protocol: TCP
+---
+# Source: ecommerce/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: payment-service
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: payment-service
+  ports:
+    - name: http
+      port: 8083
+      targetPort: 8083
+      protocol: TCP
+---
+# Source: ecommerce/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: scheduler
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: scheduler
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: scheduler
+  ports:
+    - name: http
+      port: 8091
+      targetPort: 8091
+      protocol: TCP
+---
+# Source: ecommerce/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: shipping-service
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: shipping-service
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: shipping-service
+  ports:
+    - name: http
+      port: 8085
+      targetPort: 8085
+      protocol: TCP
+---
+# Source: ecommerce/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: worker
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: worker
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: worker
+  ports:
+    - name: http
+      port: 8090
+      targetPort: 8090
+      protocol: TCP
+---
+# Source: ecommerce/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: api-gateway
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: api-gateway
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: api-gateway
+        app.kubernetes.io/part-of: ecommerce
+    spec:
+      serviceAccountName: ecommerce-service-account
+      containers:
+        - name: api-gateway
+          image: "409987738946.dkr.ecr.eu-west-2.amazonaws.com/api-gateway:initial"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: ENVIRONMENT
+              value: "prod"
+            - name: AWS_REGION
+              value: "eu-west-2"
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            failureThreshold: 30
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 20
+---
+# Source: ecommerce/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard-api
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: dashboard-api
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: dashboard-api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: dashboard-api
+        app.kubernetes.io/part-of: ecommerce
+    spec:
+      serviceAccountName: ecommerce-service-account
+      containers:
+        - name: dashboard-api
+          image: "409987738946.dkr.ecr.eu-west-2.amazonaws.com/dashboard-api:initial"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8086
+              protocol: TCP
+          env:
+            - name: ENVIRONMENT
+              value: "prod"
+            - name: AWS_REGION
+              value: "eu-west-2"
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8086
+            failureThreshold: 30
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8086
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8086
+            initialDelaySeconds: 30
+            periodSeconds: 20
+---
+# Source: ecommerce/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: inventory-service
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: inventory-service
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: inventory-service
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: inventory-service
+        app.kubernetes.io/part-of: ecommerce
+    spec:
+      serviceAccountName: ecommerce-service-account
+      containers:
+        - name: inventory-service
+          image: "409987738946.dkr.ecr.eu-west-2.amazonaws.com/inventory-service:initial"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8082
+              protocol: TCP
+          env:
+            - name: ENVIRONMENT
+              value: "prod"
+            - name: AWS_REGION
+              value: "eu-west-2"
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8082
+            failureThreshold: 30
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8082
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8082
+            initialDelaySeconds: 30
+            periodSeconds: 20
+---
+# Source: ecommerce/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification-service
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: notification-service
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: notification-service
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: notification-service
+        app.kubernetes.io/part-of: ecommerce
+    spec:
+      serviceAccountName: ecommerce-service-account
+      containers:
+        - name: notification-service
+          image: "409987738946.dkr.ecr.eu-west-2.amazonaws.com/notification-service:initial"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8084
+              protocol: TCP
+          env:
+            - name: ENVIRONMENT
+              value: "prod"
+            - name: AWS_REGION
+              value: "eu-west-2"
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8084
+            failureThreshold: 30
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8084
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8084
+            initialDelaySeconds: 30
+            periodSeconds: 20
+---
+# Source: ecommerce/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: order-service
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: order-service
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: order-service
+        app.kubernetes.io/part-of: ecommerce
+    spec:
+      serviceAccountName: ecommerce-service-account
+      containers:
+        - name: order-service
+          image: "409987738946.dkr.ecr.eu-west-2.amazonaws.com/order-service:initial"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8081
+              protocol: TCP
+          env:
+            - name: ENVIRONMENT
+              value: "prod"
+            - name: AWS_REGION
+              value: "eu-west-2"
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8081
+            failureThreshold: 30
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8081
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8081
+            initialDelaySeconds: 30
+            periodSeconds: 20
+---
+# Source: ecommerce/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-service
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: payment-service
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: payment-service
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: payment-service
+        app.kubernetes.io/part-of: ecommerce
+    spec:
+      serviceAccountName: ecommerce-service-account
+      containers:
+        - name: payment-service
+          image: "409987738946.dkr.ecr.eu-west-2.amazonaws.com/payment-service:initial"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8083
+              protocol: TCP
+          env:
+            - name: ENVIRONMENT
+              value: "prod"
+            - name: AWS_REGION
+              value: "eu-west-2"
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8083
+            failureThreshold: 30
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8083
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8083
+            initialDelaySeconds: 30
+            periodSeconds: 20
+---
+# Source: ecommerce/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scheduler
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: scheduler
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: scheduler
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: scheduler
+        app.kubernetes.io/part-of: ecommerce
+    spec:
+      serviceAccountName: ecommerce-service-account
+      containers:
+        - name: scheduler
+          image: "409987738946.dkr.ecr.eu-west-2.amazonaws.com/scheduler:initial"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8091
+              protocol: TCP
+          env:
+            - name: ENVIRONMENT
+              value: "prod"
+            - name: AWS_REGION
+              value: "eu-west-2"
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8091
+            failureThreshold: 30
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8091
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8091
+            initialDelaySeconds: 30
+            periodSeconds: 20
+---
+# Source: ecommerce/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shipping-service
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: shipping-service
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: shipping-service
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: shipping-service
+        app.kubernetes.io/part-of: ecommerce
+    spec:
+      serviceAccountName: ecommerce-service-account
+      containers:
+        - name: shipping-service
+          image: "409987738946.dkr.ecr.eu-west-2.amazonaws.com/shipping-service:initial"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8085
+              protocol: TCP
+          env:
+            - name: ENVIRONMENT
+              value: "prod"
+            - name: AWS_REGION
+              value: "eu-west-2"
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8085
+            failureThreshold: 30
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8085
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8085
+            initialDelaySeconds: 30
+            periodSeconds: 20
+---
+# Source: ecommerce/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: worker
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: worker
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: worker
+        app.kubernetes.io/part-of: ecommerce
+    spec:
+      serviceAccountName: ecommerce-service-account
+      containers:
+        - name: worker
+          image: "409987738946.dkr.ecr.eu-west-2.amazonaws.com/worker:initial"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8090
+              protocol: TCP
+          env:
+            - name: ENVIRONMENT
+              value: "prod"
+            - name: AWS_REGION
+              value: "eu-west-2"
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 8090
+            failureThreshold: 30
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8090
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8090
+            initialDelaySeconds: 30
+            periodSeconds: 20
+---
+# Source: ecommerce/templates/postgres-statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: postgres
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  serviceName: postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: postgres
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: postgres
+        app.kubernetes.io/part-of: ecommerce
+    spec:
+      containers:
+        - name: postgres
+          image: "postgres:16"
+          ports:
+            - name: postgres
+              containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: "ecommerce"
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: password
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: gp3
+        resources:
+          requests:
+            storage: 20Gi
+
+---
+# Source: ecommerce/templates/redis-statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+spec:
+  serviceName: redis
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: redis
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: redis
+        app.kubernetes.io/part-of: ecommerce
+    spec:
+      containers:
+        - name: redis
+          image: "redis:7"
+          command: ["redis-server"]
+          args: ["--appendonly", "yes"]
+          ports:
+            - name: redis
+              containerPort: 6379
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: gp3
+        resources:
+          requests:
+            storage: 10Gi
+
+---
+# Source: ecommerce/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ecommerce-ingress
+  namespace: ecommerce
+  labels:
+    app.kubernetes.io/name: ecommerce-ingress
+    app.kubernetes.io/part-of: ecommerce
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: ecommerce.ahmedo.co.uk
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - ecommerce.ahmedo.co.uk
+      secretName: ecommerce-tls
+  rules:
+    - host: ecommerce.ahmedo.co.uk
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: api-gateway
+                port:
+                  number: 8080

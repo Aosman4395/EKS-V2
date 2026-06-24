@@ -1,0 +1,17 @@
+provider:
+  name: aws
+
+policy: sync
+
+registry: txt
+txtOwnerId: eks-v2
+
+domainFilters:
+  - ahmedo.co.uk
+
+sources:
+  - ingress
+  - service
+
+aws:
+  region: eu-west-2

@@ -1,0 +1,42 @@
+global:
+  enabled: true
+
+injector:
+  enabled: true
+  replicas: 2
+
+server:
+  dev:
+    enabled: false
+
+  standalone:
+    enabled: true
+
+  ha:
+    enabled: false
+
+  dataStorage:
+    enabled: true
+    size: 10Gi
+    storageClass: gp3
+    accessMode: ReadWriteOnce
+
+  auditStorage:
+    enabled: true
+    size: 5Gi
+    storageClass: gp3
+    accessMode: ReadWriteOnce
+
+  service:
+    enabled: true
+    type: ClusterIP
+
+  readinessProbe:
+    enabled: true
+
+  livenessProbe:
+    enabled: true
+
+ui:
+  enabled: true
+  serviceType: ClusterIP

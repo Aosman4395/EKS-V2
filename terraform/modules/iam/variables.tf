@@ -6,7 +6,7 @@ variable "eks_cluster_name" {
 
 variable "hosted_zone_id" {
   type = string
-  default = "Z03631591EWPFVYXB2928"
+  default = "Z09425311W0YDP6A7N1AU"
 }
 
 variable "oidc_provider_arn" {

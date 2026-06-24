@@ -24,5 +24,5 @@ variable "vpc_id" {
 variable "principal_arn" {
   description = "The ARN of the OIDC provider for IRSA"
   type        = string
-  default     = "arn:aws:iam::409987738946:root"
+  default     = "arn:aws:iam::673588459289:root"
 }

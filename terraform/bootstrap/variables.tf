@@ -7,11 +7,11 @@ variable "aws_region" {
 variable "s3_name" {
   description = "The name of the S3 bucket for Terraform state"
   type        = string
-  default     = "ahamed-eks-project-s3"
+  default     = "ahamed-eksv2-project-s3"
 }
 
 variable "ecr_name" {
   description = "The name of the ECR repository"
   type        = string
-  default     = "ahamed-eks-project-ecr"
+  default     = "ahamed-eksv2-project-ecr"
 }
