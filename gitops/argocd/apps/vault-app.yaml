@@ -14,7 +14,7 @@ spec:
 
       helm:
         valueFiles:
-          - $values/addons/vault-values.yaml
+          - $values/gitops/addons/vault-values.yaml
 
     - repoURL: https://github.com/Aosman4395/EKS-V2.git
       targetRevision: main

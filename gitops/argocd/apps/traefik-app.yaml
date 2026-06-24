@@ -14,7 +14,7 @@ spec:
 
     helm:
       valueFiles:
-        - $values/addons/traefik-values.yaml
+        - $values/gitops/addons/traefik-values.yaml
 
   sources:
     - repoURL: https://traefik.github.io/charts

@@ -14,7 +14,7 @@ spec:
 
       helm:
         valueFiles:
-          - $values/addons/external-dns-values.yaml
+          - $values/gitops/addons/external-dns-values.yaml
 
     - repoURL: https://github.com/Aosman4395/EKS-V2.git
       targetRevision: main

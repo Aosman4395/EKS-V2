@@ -14,7 +14,7 @@ spec:
 
       helm:
         valueFiles:
-          - $values/addons/cert-manager-values.yaml
+          - $values/gitops/addons/cert-manager-values.yaml
 
     - repoURL: https://github.com/Aosman4395/EKS-V2.git
       targetRevision: main
