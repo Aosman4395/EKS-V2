@@ -16,7 +16,7 @@ spec:
         valueFiles:
           - $values/addons/cert-manager-values.yaml
 
-    - repoURL: git@github.com:Aosman4395/EKS-V2-Project.git
+    - repoURL: https://github.com/Aosman4395/EKS-V2.git
       targetRevision: main
       ref: values
 

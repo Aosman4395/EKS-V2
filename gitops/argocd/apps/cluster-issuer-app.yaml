@@ -8,7 +8,7 @@ spec:
   project: platform
 
   source:
-    repoURL: git@github.com:Aosman4395/EKS-V2-Project.git
+    repoURL: https://github.com/Aosman4395/EKS-V2.git
     targetRevision: main
     path: platform-manifests
 

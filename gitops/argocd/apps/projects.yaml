@@ -1,0 +1,49 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: platform
+  namespace: argocd
+spec:
+  description: Platform addons for EKS V2
+
+  sourceRepos:
+    - https://github.com/Aosman4395/EKS-V2.git
+    - https://charts.jetstack.io
+    - https://kubernetes-sigs.github.io/external-dns
+    - https://traefik.github.io/charts
+    - https://helm.releases.hashicorp.com
+
+  destinations:
+    - namespace: '*'
+      server: https://kubernetes.default.svc
+
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: ecommerce
+  namespace: argocd
+spec:
+  description: Ecommerce application workloads
+
+  sourceRepos:
+    - https://github.com/Aosman4395/EKS-V2.git
+
+  destinations:
+    - namespace: ecommerce
+      server: https://kubernetes.default.svc
+
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
