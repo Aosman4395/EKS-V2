@@ -27,7 +27,7 @@ resource "aws_eks_cluster" "eks_cluster" {
   depends_on = [aws_iam_role_policy_attachment.eks_cluster_AmazonEKSClusterPolicy]
 }
 
-# Give admin (root) access to EKS
+# Give admin access to EKS
 resource "aws_eks_access_entry" "local_admin" {
   cluster_name  = aws_eks_cluster.eks_cluster.name
   principal_arn = var.principal_arn
@@ -75,7 +75,7 @@ resource "aws_eks_node_group" "eks_node_group" {
   node_role_arn   = aws_iam_role.eks_node_role.arn
   subnet_ids      = var.private_subnet_ids
 
-  instance_types = ["t3.micro"]
+  instance_types = ["t3.large"]
 
   scaling_config {
     desired_size = 4

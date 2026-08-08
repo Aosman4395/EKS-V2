@@ -1,6 +1,7 @@
 #S3 bucket for Terraform state
 resource "aws_s3_bucket" "terraform_state" {
   bucket = var.s3_name
+  force_destroy = true
 
   tags = {
     Name = "Terraform State"
